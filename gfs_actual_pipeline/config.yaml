@@ -1,0 +1,42 @@
+start_time: "2025-07-16 00:00"
+end_time: "2025-07-21 18:00"
+forecast_hour: 0
+step_hours: 6
+
+raw_grib_dir: "/ocean/projects/atm200005p/esohn1/gfsum_master/data/gfs_actual/raw_grib"
+temp_grib_dir: "/ocean/projects/atm200005p/esohn1/gfsum_master/data/gfs_actual/temp_grib"
+processed_netcdf_dir: "/ocean/projects/atm200005p/esohn1/gfsum_master/data/gfs_actual/processed_netcdf"
+
+variables:
+  - name: TMP
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: RH
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: UGRD
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: VGRD
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: HGT
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: SPFH
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: TCDC
+    levels: ["1000 mb", "975 mb", "950 mb", "925 mb", "900 mb", "875 mb", "850 mb",
+             "800 mb", "700 mb", "600 mb", "500 mb", "400 mb", "300 mb", "250 mb",
+             "200 mb", "150 mb", "100 mb", "50 mb"]
+  - name: VVEL
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: HPBL
+    levels: ["surface"]
+  - name: CLMR
+    levels: ["1000 mb", "925 mb", "850 mb", "700 mb", "500 mb", "300 mb", "250 mb"]
+  - name: LCDC
+    levels: ["low cloud layer"]
+  - name: MCDC
+    levels: ["middle cloud layer"]
+  - name: HCDC
+    levels: ["high cloud layer"]
+  - name: PRES
+    levels: ["surface"]
+  - name: MSLET
+    levels: ["mean sea level"]
