@@ -34,7 +34,12 @@ os.makedirs(out_dir, exist_ok=True)
 
 # === Loop through time steps ===
 for i, timestamp in enumerate(ds.time.values):
-    print(f"🔄 Plotting {main_var} at {main_level} — time step {i+1}/{len(ds.time)}")
+    hour = pd.to_datetime(str(timestamp)).hour
+    if hour % 6 != 0:
+        continue  # Skip non-6-hour timestamps
+
+    print(f"🔄 Plotting {main_var} at {main_level} — time step {i+1}")
+
     actual_var = list(ds.data_vars)[0]
     data = ds[actual_var].sel(time=timestamp)
     if "model_level_number" in data.dims:
