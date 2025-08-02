@@ -110,7 +110,11 @@ def load_main_variable(var, level, timestamp):
         raise FileNotFoundError(f"NetCDF file not found: {file_path}")
 
     ds = xr.open_dataset(file_path)
-    var_name = f"{var}_{level}" if f"{var}_{level}" in ds else var
+    if var == "HPBL" and level == "surface":
+        var_name = "HPBL_surface" if "HPBL_surface" in ds else "HPBL"
+    else:
+        var_name = f"{var}_{level}" if f"{var}_{level}" in ds else var
+
     if var_name not in ds:
         raise KeyError(f"Variable {var_name} not found in {file_path}")
 

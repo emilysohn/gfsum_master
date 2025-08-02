@@ -55,28 +55,35 @@ for timestamp_str in timestamp_dirs:
         vmax=bounds[-1]
     )
 
-    # === Contour overlay ===
     if contour_var:
         ds_contour = load_main_variable(contour_var, main_level, timestamp_str)
-        contour_data = ds_contour[contour_var].squeeze()
-        style = CONTOUR_CONFIG.get((main_var, contour_var), {})
+        contour_var_name = f"{contour_var}_{main_level}" if f"{contour_var}_{main_level}" in ds_contour else contour_var
 
-        lon_c, lat_c = get_lon_lat(contour_data)
-        lon2d_c, lat2d_c = np.meshgrid(lon_c, lat_c)
+        if contour_var_name not in ds_contour:
+            print(f"⚠️ {contour_var_name} not found in dataset for {timestamp_str}. Skipping contour overlay.")
+        else:
+            contour_data = ds_contour[contour_var_name].squeeze()
+            style = CONTOUR_CONFIG.get((main_var, contour_var), {})
 
-        contour_data = contour_data.values
-        vmin = np.nanmin(contour_data)
-        vmax = np.nanmax(contour_data)
-        contour_levels = np.linspace(vmin, vmax, 40)
-        cs = ax.contour(lon2d_c, lat2d_c, contour_data, levels=contour_levels, transform=proj, **style)
-        ax.clabel(cs, inline=1, fontsize=8, fmt="%d")
+            lon_c, lat_c = get_lon_lat(contour_data)
+            lon2d_c, lat2d_c = np.meshgrid(lon_c, lat_c)
+
+            contour_data = contour_data.values
+            vmin = np.nanmin(contour_data)
+            vmax = np.nanmax(contour_data)
+            contour_levels = np.linspace(vmin, vmax, 60)
+            cs = ax.contour(lon2d_c, lat2d_c, contour_data, levels=contour_levels, transform=proj, **style)
+            ax.clabel(cs, inline=1, fontsize=8, fmt="%d")
 
     # === Quiver overlay ===
     if quiver:
         u_ds = load_main_variable("UGRD", main_level, timestamp_str)
         v_ds = load_main_variable("VGRD", main_level, timestamp_str)
-        u = u_ds["UGRD"].squeeze()
-        v = v_ds["VGRD"].squeeze()
+        
+        u_var = list(u_ds.data_vars)[0]
+        u = u_ds[u_var].squeeze()
+        v_var = list(v_ds.data_vars)[0]
+        v = v_ds[v_var].squeeze()
         lon_q, lat_q = get_lon_lat(u)
         plot_quivers(ax, u.values, v.values, lat_q, lon_q, proj)
 

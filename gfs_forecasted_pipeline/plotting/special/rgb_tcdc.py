@@ -32,41 +32,53 @@ for init_time in [start_time + i*time_step for i in range(int((end_time - start_
         continue
 
     try:
+        # Load data
         lcdc = xr.open_dataset(lcdc_path)["LCDC_lowcloudlayer"].squeeze()
-        mcdc = xr.open_dataset(mcdc_path)["MCDC_midcloudlayer"].squeeze()
+        mcdc = xr.open_dataset(mcdc_path)["MCDC_middlecloudlayer"].squeeze()
         hcdc = xr.open_dataset(hcdc_path)["HCDC_highcloudlayer"].squeeze()
         pres = xr.open_dataset(pres_path)["PRES_surface"].squeeze() / 100  # Pa → hPa
 
-        lon = lcdc["longitude"]
-        lat = lcdc["latitude"]
+        lon = lcdc["longitude"].values
+        lat = lcdc["latitude"].values
         lon2d, lat2d = np.meshgrid(lon, lat)
 
-        fig, ax = setup_map()
+        # Set up map
+        fig, ax, proj = setup_map()
 
         # Cloud layer shading
-        r = ax.pcolormesh(lon2d, lat2d, hcdc, cmap="Reds", vmin=0, vmax=1, alpha=0.4, transform=ax.projection)
-        g = ax.pcolormesh(lon2d, lat2d, mcdc, cmap="Greens", vmin=0, vmax=1, alpha=0.4, transform=ax.projection)
-        b = ax.pcolormesh(lon2d, lat2d, lcdc, cmap="Blues", vmin=0, vmax=1, alpha=0.4, transform=ax.projection)
+        p3 = ax.pcolormesh(lon2d, lat2d, lcdc, cmap="Blues", vmin=0, vmax=1, alpha=0.3, transform=proj)
+        p2 = ax.pcolormesh(lon2d, lat2d, mcdc, cmap="YlGn", vmin=0, vmax=1, alpha=0.3, transform=proj)
+        p1 = ax.pcolormesh(lon2d, lat2d, hcdc, cmap="OrRd", vmin=0, vmax=1, alpha=0.3, transform=proj)
 
-        # Sea-level pressure contours
-        ax.contour(pres["longitude"], pres["latitude"], pres,
-                   levels=np.arange(960, 1040, 4),
-                   colors="tan", linewidths=0.7, transform=ax.projection)
+        # MSLP contours
+        pres_lon = pres["longitude"].values
+        pres_lat = pres["latitude"].values
+        pres2d_lon, pres2d_lat = np.meshgrid(pres_lon, pres_lat)
+        cs = ax.contour(pres2d_lon, pres2d_lat, pres,
+                        levels=np.arange(960, 1040, 4),
+                        colors="tan", linewidths=0.7, transform=proj)
+        ax.clabel(cs, fmt='%d', fontsize=7)
 
-        # Title with valid/init time
+        # Title
         ax.set_title(
             f"DLR-Style Layered Cloud Cover and MSLP\n"
             f"Valid: {valid_time:%Y-%m-%d %H:%MZ} (initialisation: {init_time:%Y-%m-%d %H:%MZ})",
             fontsize=13
         )
 
-        # Add colorbars for each channel
-        cbar_r = fig.colorbar(r, ax=ax, orientation="vertical", shrink=0.45, pad=0.01)
-        cbar_r.set_label("High Cloud", fontsize=9)
-        cbar_g = fig.colorbar(g, ax=ax, orientation="vertical", shrink=0.45, pad=0.05)
-        cbar_g.set_label("Mid Cloud", fontsize=9)
-        cbar_b = fig.colorbar(b, ax=ax, orientation="vertical", shrink=0.45, pad=0.09)
-        cbar_b.set_label("Low Cloud", fontsize=9)
+# Manually stacked vertical colorbars (narrow column on the right)
+        cbar_ax1 = fig.add_axes([0.92, 0.65, 0.015, 0.20])  # [left, bottom, width, height]
+        cbar_ax2 = fig.add_axes([0.92, 0.42, 0.015, 0.20])
+        cbar_ax3 = fig.add_axes([0.92, 0.19, 0.015, 0.20])
+
+        cb3 = fig.colorbar(p3, cax=cbar_ax3)
+        cb3.set_label("Low Cloud", fontsize=9)
+
+        cb2 = fig.colorbar(p2, cax=cbar_ax2)
+        cb2.set_label("Mid Cloud", fontsize=9)
+
+        cb1 = fig.colorbar(p1, cax=cbar_ax1)
+        cb1.set_label("High Cloud", fontsize=9)
 
         # Save
         fname = f"dlr_combined_{timestamp}.png"

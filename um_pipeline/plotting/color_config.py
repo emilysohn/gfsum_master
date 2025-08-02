@@ -15,9 +15,9 @@ COLOR_CONFIG = {
     },
     "POT": {
         "cmap": ListedColormap([
-            "#ECEAE6", "#FF00F3", "#DA09FF", "#8308FF", "#3700FF",
-            "#005D71", "#00FFF5", "#00FFFC", "#04DF53", "#00FD42",
-            "#80FF00", "#51FF00", "#FF6F9A", "#EE8891", "#ED345F", "#FF374E"
+            "#D0156F", "#FF00F3", "#DA09FF", "#8308FF", "#3700FF",
+            "#2260D3", "#00FFF5", "#00FFFC", "#04DF53", "#00FD42",
+            "#80FF00", "#BEFF6E", "#FFF873", "#EE8891", "#ED345F", "#FF374E"
         ]),
         "bounds": np.linspace(273, 341, 17),
         "label": "Potential Temperature (K)",
@@ -25,7 +25,7 @@ COLOR_CONFIG = {
     },
     "RH": {
         "cmap": ListedColormap(["#36de76", "#19949d", "#3b66f1", "#0a35c4", "#130963"]),
-        "bounds": [70, 85, 100, 115, 130],
+        "bounds": [50, 65, 80, 95, 110],
         "label": "Relative Humidity (%)",
         "convert": lambda x: x * 100 if x.max() < 1.5 else x
     },
@@ -64,7 +64,14 @@ COLOR_CONFIG = {
         "bounds": np.arange(10, 90, 5),
         "label": "Horizontal Wind Speed (m/s)",
         "convert": lambda x: x
-    }
+    },
+    "LWC": {
+    "cmap": "Blues",
+    "bounds": np.linspace(0, 0.5, 21),
+    "label": "Column Liquid Water Content [kg/m²]",
+    "convert": False
+}
+
 }
 
 CONTOUR_CONFIG = {
