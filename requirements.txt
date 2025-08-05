@@ -1,0 +1,17 @@
+# Core scientific libraries
+numpy
+pandas
+xarray
+netCDF4
+scipy
+
+# Plotting and mapping
+matplotlib
+cartopy
+
+# File I/O and animation
+ffmpeg-python
+
+# UM data support (optional, but useful for full pipeline support)
+iris
+cf-units
