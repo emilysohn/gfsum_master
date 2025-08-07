@@ -25,7 +25,6 @@ config = COLOR_CONFIG[main_var]
 cmap = config["cmap"]
 bounds = config["bounds"]
 label = config["label"]
-convert = config["convert"]
 
 # === OUTPUT DIRECTORY ===
 out_dir = f"/ocean/projects/atm200005p/esohn1/gfsum_master/plots/um/{main_var}/{main_level}"

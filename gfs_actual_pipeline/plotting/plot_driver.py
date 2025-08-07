@@ -94,7 +94,7 @@ for timestamp_str in timestamp_dirs:
     valid_time = pd.to_datetime(init_time_str)
 
     title = format_title(main_var, main_level, valid_time, contour_var)
-    plt.title(title, fontsize=10)
+    plt.title(title, fontsize=16)
     cbar = plt.colorbar(mesh, ax=ax, orientation="vertical", pad=0.02, aspect=30)
     cbar.set_label(label)
 

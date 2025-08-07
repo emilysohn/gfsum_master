@@ -32,11 +32,6 @@ COLOR_CONFIG = {
         "bounds": np.linspace(0, 0.01, 11),
         "label": "Specific Humidity (kg/kg)"
     },
-    "LWC": {
-        "cmap": "Blues",
-        "bounds": np.linspace(0, 0.5, 11),
-        "label": "Liquid Water Content (g/m³)"
-    },
     "HGT": {
         "cmap": ListedColormap(plt.get_cmap("cividis")(np.linspace(0, 1, 256))),
         "bounds": np.linspace(0, 6000, 13),

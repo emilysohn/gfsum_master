@@ -10,8 +10,7 @@ COLOR_CONFIG = {
             "#0eb331", "#80ff00", "#fff12d", "#ff9900", "#ff2a00", "#b30000"
         ]),
         "bounds": np.linspace(200, 350, 12),
-        "label": "Temperature (K)",
-        "convert": lambda x: x
+        "label": "Temperature (K)"
     },
     "POT": {
         "cmap": ListedColormap([
@@ -20,56 +19,42 @@ COLOR_CONFIG = {
             "#80FF00", "#BEFF6E", "#FFF873", "#EE8891", "#ED345F", "#FF374E"
         ]),
         "bounds": np.linspace(273, 341, 17),
-        "label": "Potential Temperature (K)",
-        "convert": lambda x: x
+        "label": "Potential Temperature (K)"
     },
     "RH": {
         "cmap": ListedColormap(["#36de76", "#19949d", "#3b66f1", "#0a35c4", "#130963"]),
         "bounds": [50, 65, 80, 95, 110],
-        "label": "Relative Humidity (%)",
-        "convert": lambda x: x * 100 if x.max() < 1.5 else x
+        "label": "Relative Humidity (%)"
     },
     "SPFH": {
         "cmap": "YlGnBu",
         "bounds": np.linspace(0, 0.01, 11),
-        "label": "Specific Humidity (kg/kg)",
-        "convert": lambda x: x
-    },
-    "LWC": {
-        "cmap": "Blues",
-        "bounds": np.linspace(0, 0.5, 11),
-        "label": "Liquid Water Content (g/m³)",
-        "convert": lambda x: x * 1000
+        "label": "Specific Humidity (kg/kg)"
     },
     "HGT": {
         "cmap": ListedColormap(plt.get_cmap("cividis")(np.linspace(0, 1, 256))),
         "bounds": np.linspace(0, 6000, 13),
-        "label": "Geopotential Height (m)",
-        "convert": lambda x: x
+        "label": "Geopotential Height (m)"
     },
     "TCDC": {
         "cmap": "Blues",
         "bounds": np.linspace(0, 1),
-        "label": "Total Cloud Cover (0–1)",
-        "convert": lambda x: x
+        "label": "Total Cloud Cover (0–1)"
     },
     "HPBL": {
         "cmap": "viridis",
         "bounds": np.linspace(0, 2250, 10),
-        "label": "Planetary Boundary Layer Height (m)",
-        "convert": lambda x: x
+        "label": "Planetary Boundary Layer Height (m)"
     },
     "UGRD": {
         "cmap": "plasma_r",
         "bounds": np.arange(10, 90, 5),
-        "label": "Horizontal Wind Speed (m/s)",
-        "convert": lambda x: x
+        "label": "Horizontal Wind Speed (m/s)"
     },
     "LWC": {
     "cmap": "Blues",
     "bounds": np.linspace(0, 0.5, 21),
-    "label": "Column Liquid Water Content [kg/m²]",
-    "convert": False
+    "label": "Column Liquid Water Content [kg/m²]"
 }
 
 }
