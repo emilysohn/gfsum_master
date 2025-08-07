@@ -1,6 +1,12 @@
 gfsum_master – GFS and UM Weather Analysis Toolkit
 A modular pipeline to process, visualize, and compare GFS forecast data and Unified Model (UM) actual data for the HALO-South field campaign. This package includes automated download scripts, standardized plotting utilities, and MP4 generation.
 
+System Requirements
+- Python 3.9+
+- [wgrib2](https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/) (only if you want to extract GFS GRIB2 files)
+  - On HPC (like Bridges-2): use `module load wgrib2`
+  - On Linux: `sudo apt install wgrib2`
+
 gfsum_master/
 ├── gfs_actual_pipeline/
 │   ├── config.yaml #only for GFS pipelines
