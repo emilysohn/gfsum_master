@@ -2,7 +2,7 @@
 #SBATCH --job-name=um_plot_driver
 #SBATCH --output=/ocean/projects/atm200005p/esohn1/logs/um_plot_driver_%A_%a.out
 #SBATCH --error=/ocean/projects/atm200005p/esohn1/logs/um_plot_driver_%A_%a.err
-#SBATCH --array=0-3
+#SBATCH --array=0-23
 #SBATCH --time=00:30:00
 #SBATCH --mem=8G
 #SBATCH --cpus-per-task=1
@@ -19,6 +19,26 @@ CONFIGS=(
   "RH 500mb HGT True"
   "RH 700mb HGT True"
   "RH 850mb HGT True"
+  "POT 300mb HGT False"
+  "POT 500mb HGT False"
+  "POT 700mb HGT False"
+  "POT 850mb HGT False"
+  "TMP 300mb HGT True"
+  "TMP 500mb HGT True"
+  "TMP 700mb HGT True"
+  "TMP 850mb HGT True"
+  "UGRD 300mb HGT True"
+  "UGRD 500mb HGT True"
+  "UGRD 700mb HGT True"
+  "UGRD 850mb HGT True"
+  "HPBL surface None False"
+  "LWC column None False"
+  "SPFH 250mb None False"
+  "SPFH 300mb None False"
+  "SPFH 500mb None False"
+  "SPFH 700mb None False"
+  "SPFH 850mb None False"
+  "SPFH 925mb None False"
 )
 
 # === Parse the config for this array task ===
