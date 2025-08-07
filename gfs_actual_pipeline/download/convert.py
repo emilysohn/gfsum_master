@@ -1,10 +1,8 @@
-# === convert.py (append version using wgrib2 only) ===
 import os
 import yaml
 import subprocess
 from datetime import datetime, timedelta
 
-# Load configuration
 with open(os.path.join(os.path.dirname(__file__), "../config.yaml")) as f:
     config = yaml.safe_load(f)
 
@@ -18,6 +16,15 @@ end_time = datetime.strptime(config["end_time"], "%Y-%m-%d %H:%M")
 step = timedelta(hours=config["step_hours"])
 forecast_hour = int(config["forecast_hour"])
 variables = config["variables"]
+
+
+extent = config.get("extent", None)
+if extent:
+    lon_min, lon_max, lat_min, lat_max = extent
+    small_grib_args = ["-small_grib", f"{lon_min}:{lon_max}", f"{lat_min}:{lat_max}"]
+    print(f"📍 Applying region subsetting: {extent}")
+else:
+    small_grib_args = []
 
 def grib_exists(grib_file, match_string):
     try:
@@ -55,10 +62,14 @@ def convert_one_time(init_time):
             try:
                 subprocess.run(extract_cmd, check=True)
 
-                nc_cmd = ["wgrib2", temp_grib, "-netcdf", final_nc]
+                nc_cmd = ["wgrib2", temp_grib]
+                if small_grib_args:
+                    nc_cmd += small_grib_args
                 if i > 0:
-                    nc_cmd.insert(1, "-append")  # Only append after the first
+                    nc_cmd += ["-append"]
+                nc_cmd += ["-netcdf", final_nc]
 
+                print("🔧 Converting:", " ".join(nc_cmd))
                 subprocess.run(nc_cmd, check=True)
                 print(f"✅ Added {lev} to {final_nc}")
             except subprocess.CalledProcessError as e:
@@ -67,7 +78,6 @@ def convert_one_time(init_time):
                 if os.path.exists(temp_grib):
                     os.remove(temp_grib)
 
-# === Run over all timestamps ===
 current = start_time
 while current <= end_time:
     convert_one_time(current)

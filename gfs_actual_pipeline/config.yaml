@@ -2,6 +2,7 @@ start_time: "2025-07-16 00:00"
 end_time: "2025-07-21 18:00"
 forecast_hour: 0
 step_hours: 6
+extent: [145, 180, -65, -30]
 
 raw_grib_dir: "/ocean/projects/atm200005p/esohn1/gfsum_master/data/gfs_actual/raw_grib"
 temp_grib_dir: "/ocean/projects/atm200005p/esohn1/gfsum_master/data/gfs_actual/temp_grib"
